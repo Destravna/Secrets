@@ -1,4 +1,5 @@
 //jshint esversion:6
+require('dotenv').config();
 const express = require("express");
 const ejs = require("ejs");
 const bodyParser = require("body-parser");
@@ -16,9 +17,9 @@ const userSchema = new mogoose.Schema({
     password : String
 });
 const User = new  mogoose.model("user", userSchema);
-const secret = "ThisIs OurLittleSecret";
 
-userSchema.plugin(encrypt, {secret: secret});
+
+userSchema.plugin(encrypt, {secret: process.env.SECRET});
 
 app.get("/", (req, res)=>{
     res.render("home.ejs");
