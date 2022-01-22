@@ -3,7 +3,7 @@ const express = require("express");
 const ejs = require("ejs");
 const bodyParser = require("body-parser");
 const mogoose = require("mongoose");
-
+const encrypt = require("mongoose-encryption");
 mogoose.connect("mongodb://localhost:27017/userDB", {useNewUrlParser:true});
 
 app = express();
@@ -16,7 +16,9 @@ const userSchema = new mogoose.Schema({
     password : String
 });
 const User = new  mogoose.model("user", userSchema);
+const secret = "ThisIs OurLittleSecret";
 
+userSchema.plugin(encrypt, {secret: secret});
 
 app.get("/", (req, res)=>{
     res.render("home.ejs");
